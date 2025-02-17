@@ -1,0 +1,31 @@
+﻿<Window x:Class="AesEncryptionOPylypenko.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AesEncryptionOPylypenko"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="320" Width="800">
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="Enter Plaintext:"/>
+            <TextBox Name="PlaintextInput"/>
+
+            <TextBlock Text="Enter Secret Key:"/>
+            <TextBox Name="KeyInput"/>
+
+            <TextBlock Text="Select Mode:"/>
+            <ComboBox Name="ModeSelection" Margin="0 10">
+                <ComboBoxItem Content="ECB"/>
+                <ComboBoxItem Content="CBC"/>
+                <ComboBoxItem Content="CFB"/>
+            </ComboBox>
+
+            <Button Content="Encrypt" Click="EncryptButton_Click"/>
+            <Button Margin="0 10" Content="Decrypt" Click="DecryptButton_Click"/>
+
+            <TextBlock Text="Result:"/>
+            <TextBox Margin="0 10" Name="ResultField" IsReadOnly="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
