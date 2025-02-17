@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AesEncryptionOPylypenko"
         mc:Ignorable="d"
-        Title="MainWindow" Height="320" Width="800">
+        Title="MainWindow" Height="350" Width="600">
     <Grid>
         <StackPanel Margin="20">
             <TextBlock Text="Enter Plaintext:"/>
             <TextBox Name="PlaintextInput"/>
-
+            <TextBlock Text="Enter IV metrics:"/>
+            <TextBox Name="IVInput"/>
             <TextBlock Text="Enter Secret Key:"/>
             <TextBox Name="KeyInput"/>
 

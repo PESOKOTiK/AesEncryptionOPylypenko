@@ -19,8 +19,8 @@ namespace AesEncryptionOPylypenko
             string plaintext = PlaintextInput.Text;
             string key = KeyInput.Text;
             string mode = ModeSelection.Text;
-
-            byte[] encrypted = Encrypt(plaintext, key, mode);
+            string IV = IVInput.Text;
+            byte[] encrypted = Encrypt(plaintext, key, mode, IV);
             File.WriteAllBytes("encrypted.txt", encrypted);
             ResultField.Text = Convert.ToBase64String(encrypted);
         }
@@ -29,7 +29,7 @@ namespace AesEncryptionOPylypenko
         {
             string key = KeyInput.Text;
             string mode = ModeSelection.Text;
-
+            string IV = IVInput.Text;
             if (!File.Exists("encrypted.txt"))
             {
                 MessageBox.Show("No encrypted file found.");
@@ -37,16 +37,17 @@ namespace AesEncryptionOPylypenko
             }
 
             byte[] encrypted = File.ReadAllBytes("encrypted.txt");
-            string decrypted = Decrypt(encrypted, key, mode);
+            string decrypted = Decrypt(encrypted, key, mode, IV);
             ResultField.Text = decrypted;
         }
 
-        private byte[] Encrypt(string plaintext, string key, string mode)
+        private byte[] Encrypt(string plaintext, string key, string mode, string IV)
         {
             using (Aes aes = Aes.Create())
             {
                 aes.Key = GenerateKey(key);
-                aes.IV = new byte[16];
+                aes.IV = ConvertStringToByteArray(IV);
+                MessageBox.Show("IV=  "+Convert.ToBase64String(aes.IV));
                 aes.Mode = GetCipherMode(mode);
 
                 using (var encryptor = aes.CreateEncryptor())
@@ -57,12 +58,12 @@ namespace AesEncryptionOPylypenko
             }
         }
 
-        private string Decrypt(byte[] cipherText, string key, string mode)
+        private string Decrypt(byte[] cipherText, string key, string mode, string IV)
         {
             using (Aes aes = Aes.Create())
             {
                 aes.Key = GenerateKey(key);
-                aes.IV = new byte[16];
+                aes.IV = ConvertStringToByteArray(IV);
                 aes.Mode = GetCipherMode(mode);
 
                 using (var decryptor = aes.CreateDecryptor())
@@ -98,6 +99,13 @@ namespace AesEncryptionOPylypenko
             {
                 return sha256.ComputeHash(Encoding.UTF8.GetBytes(key));
             }
+        }
+        private byte[] ConvertStringToByteArray(string input)
+        {
+            byte[] byteArray = new byte[16];
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            Array.Copy(inputBytes, byteArray, Math.Min(byteArray.Length, inputBytes.Length));
+            return byteArray;
         }
     }
 }
